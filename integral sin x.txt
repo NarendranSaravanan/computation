@@ -1,0 +1,70 @@
+a = input('enter the lower limit');
+b = input('enter the upper limit');
+integral = 0;
+integral1 = 0;
+for i = a:+0.01:b
+ angle1 = i;
+ angle2 = i+0.01;
+ anglemid = (angle1+angle2)/2;
+ for j = 0:+1:2
+  c = 1; % Initially assign value 1
+  n = 0;
+  new = 0;
+  old = 0;
+  count = 0;
+  if j == 0
+   while  n<20
+    term = myterm(n,angle1);
+    if n == 0
+      old = term; % Updating SOld
+      c = round(new - old,6); % Calculating c
+    else     
+      new = old + term; % CAdding term to series
+      c = round(new - old,6);  % Calculating c
+      old = new; % Updating SOld value
+    end
+    n = n + 1;    
+   end
+   temp1 = old;
+  end 
+  if j == 1
+      while  n<20
+       term = myterm(n,angle2);
+       if n == 0
+        old = term; % Updating SOld
+        c = round(new - old,6); % Calculating c
+       else     
+        new = old + term; % CAdding term to series
+        c = round(new - old,6);  % Calculating c
+        old = new; % Updating SOld value
+       end
+        n = n + 1;    
+      end
+      temp2 = old;
+  end
+  if j == 2
+      while  n<20
+       term = myterm(n,anglemid);
+       if n == 0
+        old = term; % Updating SOld
+        c = round(new - old,6); % Calculating c
+       else     
+        new = old + term; % CAdding term to series
+        c = round(new - old,6);  % Calculating c
+        old = new; % Updating SOld value
+       end
+        n = n + 1;    
+      end
+      tempmid = old;
+  end
+ end
+ temp = ((temp1+temp2)/2)*(angle2-angle1);
+ integral = integral + temp;
+ tempsim = ((temp1+4*tempmid+temp2)/3)*((angle2-angle1)/2);
+ integral1 = integral1 + tempsim;
+end 
+fprintf('integral value is %.8f using trapizoidal rule\n', integral);
+fprintf('integral value is %.8f using simpson 1/3 rule', integral1)
+function [term] = myterm(n,angle)
+      term = ( ((-1)^n) / (factorial((2*n) + 1)) ) * ( angle ^ ((2*n) + 1) );
+end 
